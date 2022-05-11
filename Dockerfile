@@ -8,7 +8,7 @@ ARG CONFIGURE_OPTS=
 RUN apt-get update \
 	&& apt-get install -y \
 # gpg
-		automake build-essential curl \
+		automake build-essential curl libbz2-dev zlib1g-dev \
 # git-secret
 		gawk git \
 	&& apt-get clean -y \
