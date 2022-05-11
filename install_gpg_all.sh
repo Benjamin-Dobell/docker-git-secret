@@ -180,7 +180,6 @@ install_suite()
 				libassuan    2.5.3  \
 				libksba      1.4.0  \
 				npth         1.6    \
-				pinentry     1.1.0  \
 				gnupg        2.2.20 \
 				-- "${_arr_component_options[@]}"
 			;;
@@ -191,7 +190,6 @@ install_suite()
 				libassuan    2.4.3  \
 				libksba      1.3.5  \
 				npth         1.2    \
-				pinentry     0.9.5  \
 				gnupg        2.1.20 \
 				-- "${_arr_component_options[@]}"
 			;;
@@ -202,7 +200,6 @@ install_suite()
 				libassuan    latest \
 				libksba      latest \
 				npth         latest \
-				pinentry     latest \
 				gnupg        latest \
 				-- "${_arr_component_options[@]}"
 			;;
@@ -213,7 +210,6 @@ install_suite()
 				libassuan    master \
 				libksba      master \
 				npth         master \
-				pinentry     master \
 				gnupg        master \
 				-- "${_arr_component_options[@]}"
 			;;

@@ -1,21 +1,31 @@
-FROM centos:7
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND='noninteractive'
 
 ARG GNUPG_VERSION=latest
-ARG CONFIGURE_OPTS="--enable-gpg2-is-gpg"
+ARG CONFIGURE_OPTS=
 
-RUN yum install -y \
-      gcc make sudo \
-      autoconf automake libtool bison \
-      bzip2 gzip bzip2-devel zlib-devel gettext-devel \
-      ncurses-devel
-
-RUN rpm --import https://github.com/riboseinc/yum/raw/master/ribose-packages.pub && \
-    curl -L https://github.com/riboseinc/yum/raw/master/ribose.repo \
-      -o /etc/yum.repos.d/ribose.repo && \
-    yum -y install ribose-automake116
+RUN apt-get update \
+	&& apt-get install -y \
+# gpg
+		automake build-essential curl \
+# git-secret
+		gawk git \
+	&& apt-get clean -y \
+	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/local/src/gpg-build-scripts
 COPY . .
-RUN ./install_gpg_all.sh --suite-version "${GNUPG_VERSION}" --sudo --configure-opts "${CONFIGURE_OPTS}" --ldconfig
+RUN ./install_gpg_all.sh --suite-version "${GNUPG_VERSION}" --configure-opts "${CONFIGURE_OPTS}"
+
+ARG GIT_SECRET_VERSION=v0.4.0
+
+WORKDIR /usr/local/src/git-secret
+RUN curl -Ls "https://github.com/sobolevn/git-secret/archive/refs/tags/${GIT_SECRET_VERSION}.tar.gz" -o src.tar.gz \
+	&& tar xfz src.tar.gz --strip-components=1 \
+	&& rm src.tar.gz
+RUN make \
+	&& make install
 
 WORKDIR /root
+
